@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# Instalação do Docker
+sudo apt-get update
+sudo apt-get install docker.io -y
+
+# Instalação do Kubernetes
+sudo apt-get install -y kubelet kubeadm kubectl
+
+# Instalação do Git
+sudo apt-get install git -y
+
+# Instalação do Docker Swarm
+sudo docker swarm init
+
+# Instalação do Zabbix
+sudo apt-get install zabbix-agent -y
+
+# Instalação do MySQL
+sudo apt-get install mysql-server -y
+
+# Instalação do MariaDB
+sudo apt-get install mariadb-server -y
+
+# Instalação do Visual Studio Code
+sudo snap install --classic code
+
+# Instalação do Maven
+sudo apt-get install maven -y
+
+# Instalação do Rundeck
+sudo apt-get install rundeck -y
+
+# Instalação do Vagrant
+sudo apt-get install vagrant -y
+
+# Instalação do Terraform
+sudo apt-get install terraform -y
+
+# Instalação do Ansible
+sudo apt-get install ansible -y
+
+# Instalação do Python 3
+sudo apt-get install python3 -y
+
+# Instalação do npm
+sudo apt-get install npm -y
+
+# Instalação do Nexus
+sudo apt-get install nexus -y
+
+# Instalação das ferramentas da AWS
+sudo apt-get install awscli -y
+
+# Instalação das ferramentas do GCP
+sudo apt-get install google-cloud-sdk -y
+
+# Instalação do Rancher
+sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+
+# Instalação do Kibana
+sudo apt-get install kibana -y
+
+# Instalação do Logstash
+sudo apt-get install logstash -y
+
+# Instalação do Elasticsearch
+sudo apt-get install elasticsearch -y
+
+# Instalação do Zabbix Server
+sudo apt-get install zabbix-server-mysql -y
+
+# Instalação do Datadog
+sudo apt-get install datadog-agent -y
+
+# Instalação do Grafana
+sudo apt-get install grafana -y
+
+# Instalação do Jenkins
+sudo apt-get install jenkins -y
+
+# Instalação do VirtualBox
+sudo apt-get install virtualbox -y
+
+# Instalação do Apache
+sudo apt-get install apache2 -y
+
+# Instalação do Nginx
+sudo apt-get install nginx -y
+
+# Instalação do Java JDK
+sudo apt-get install openjdk-8-jdk -y
+
+# Instalação do Argo CD
+sudo apt-get install argocd -y
+
+# Instalação do Go
+sudo apt-get install golang -y
+
+# Instalação do PHP
+sudo apt-get install php -y
+
+# Criação do usuário devops e adição ao grupo devops
+sudo adduser devops
+sudo usermod -aG devops devops
+
+# Concessão de permissões para o usuário devops
+# ...
+
+# Reinicia os serviços necessários
+sudo systemctl restart docker
+sudo systemctl restart mysql
+sudo systemctl restart mariadb
+sudo systemctl restart nginx
