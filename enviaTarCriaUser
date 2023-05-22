@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Defina os parâmetros
+nome_usuario="seu_nome_usuario"
+lista_hosts=("host1" "host2" "host3")
+diretorio_destino="/caminho/do/diretorio"
+arquivo_origem="/caminho/do/arquivo.tar.gz"
+
+# Cria o usuário nos hosts
+for host in "${lista_hosts[@]}"; do
+    ssh "$host" sudo useradd "$nome_usuario"
+done
+
+# Cria o diretório nos hosts
+for host in "${lista_hosts[@]}"; do
+    ssh "$host" sudo mkdir -p "$diretorio_destino"
+done
+
+# Copia o arquivo para o diretório nos hosts
+for host in "${lista_hosts[@]}"; do
+    scp "$arquivo_origem" "$host:$diretorio_destino"
+done
+
+# Descompacta o arquivo nos hosts
+for host in "${lista_hosts[@]}"; do
+    ssh "$host" "sudo tar -xzf $diretorio_destino/arquivo.tar.gz -C $diretorio_destino"
+done
