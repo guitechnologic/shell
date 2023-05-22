@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Função para instalar pacotes no Ubuntu ou Debian
+install_packages_debian() {
+    sudo apt update
+    sudo apt install -y docker.io kubectl terraform ansible puppet git
+    # Instale outras ferramentas necessárias para o seu ambiente
+
+    # Instale e configure o banco de dados necessário
+    # Exemplo para MySQL/MariaDB
+    sudo apt install -y mysql-server
+    sudo systemctl enable mysql
+    sudo systemctl start mysql
+}
+
+# Função para instalar pacotes no RHEL ou CentOS
+install_packages_rhel() {
+    sudo yum update -y
+    sudo yum install -y docker kubectl terraform ansible puppet git
+    # Instale outras ferramentas necessárias para o seu ambiente
+
+    # Instale e configure o banco de dados necessário
+    # Exemplo para MySQL/MariaDB
+    sudo yum install -y mariadb-server
+    sudo systemctl enable mariadb
+    sudo systemctl start mariadb
+}
+
+# Função para criar usuário e grupo
+create_user_and_group() {
+    read -p "Digite o nome de usuário: " username
+    read -s -p "Digite a senha: " password
+    echo
+    sudo useradd -m -G docker "$username"
+    echo "$username:$password" | sudo chpasswd
+    sudo groupadd mygroup
+    sudo usermod -a -G mygroup "$username"
+}
+
+# Obter escolha do sistema operacional
+echo "Escolha o sistema operacional:"
+select os in "Ubuntu" "Debian" "RHEL" "CentOS"; do
+    case $os in
+        "Ubuntu" | "Debian" )
+            install_packages_debian
+            break;;
+        "RHEL" | "CentOS" )
+            install_packages_rhel
+            break;;
+        * )
+            echo "Opção inválida. Por favor, escolha novamente.";;
+    esac
+done
+
+# Criar usuário e grupo
+create_user_and_group
+
+# Instale e configure as demais ferramentas
+# Exemplo para instalar o Grafana no Ubuntu/Debian
+sudo apt install -y grafana
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+
+# Exemplo para instalar o Jenkins no RHEL/CentOS
+sudo yum install -y jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+
+# Continue instalando e configurando outras ferramentas necessárias para o seu ambiente
+
