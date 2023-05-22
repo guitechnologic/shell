@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Função para instalar pacotes no Ubuntu
+install_packages() {
+    sudo apt update
+    sudo apt install -y docker.io git code maven vagrant terraform ansible python3 npm virtualbox mysql-server
+
+    # Instale outras ferramentas necessárias para o seu ambiente
+
+    # Instale e configure o Kubernetes
+    sudo snap install microk8s --classic
+    sudo usermod -a -G microk8s $USER
+    sudo chown -f -R $USER ~/.kube
+
+    # Instale e configure o Rundeck
+    sudo echo "deb https://rundeck.bintray.com/rundeck-deb /" | sudo tee -a /etc/apt/sources.list.d/rundeck.list
+    curl 'https://bintray.com/user/downloadSubjectPublicKey?username=bintray' | sudo apt-key add -
+    sudo apt update
+    sudo apt install -y rundeck
+
+    # Instale e configure o Nexus
+    wget https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+    tar -xf latest-unix.tar.gz
+    mv nexus-*/ nexus/
+    rm latest-unix.tar.gz
+    sudo chown -R $USER:$USER nexus/
+
+    # Instale e configure o Zabbix Agent
+    wget https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu20.04_all.deb
+    sudo dpkg -i zabbix-release_5.4-1+ubuntu20.04_all.deb
+    sudo apt update
+    sudo apt install -y zabbix-agent
+
+    # Instale e configure o Datadog Agent
+    DD_API_KEY="YOUR_DATADOG_API_KEY"
+    DD_SITE="datadoghq.com"
+    bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"
+}
+
+# Criar usuário e grupo
+create_user_and_group() {
+    sudo groupadd devops
+    sudo useradd -m -g devops devops
+    sudo chown -R devops:devops /home/devops
+    sudo echo "devops ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers.d/devops
+}
+
+# Instalar pacotes e criar usuário e grupo
+install_packages
+create_user_and_group
+
+# Gerar arquivo de informações
+echo "Informações do ambiente:" > ambiente.txt
+echo "-------------------------------------" >> ambiente.txt
+echo "Docker: $(docker --version)" >> ambiente.txt
+echo "Kubernetes: $(microk8s.kubectl version --client)" >> ambiente.txt
+echo "Git: $(git --version)" >> ambiente.txt
+echo "Visual Studio Code: Installed" >> ambiente.txt
+echo "Microsoft Teams: Installed" >> ambiente.txt
+echo "Maven: $(mvn --version)" >> ambiente.txt
+echo "Rundeck: Installed" >> ambiente.txt
+echo "Vagrant: $(vagrant --version)" >> ambiente.txt
+echo "Terraform: $(terraform --version)" >> ambiente.txt
+echo "Ansible: $(ansible --version)" >> ambiente.txt
+echo "Python3: $(python3 --version)" >> ambiente.txt
+echo "NPM: $(npm --version)" >> ambiente.txt
+echo "Nexus: Installed" >> ambiente.txt
+echo "AWS CLI: Installed"
