@@ -1,0 +1,5 @@
+ ######varre desde o / procurando arquivos .log ou .err com mais de 3 dias e exclua-los
+ 
+ find / -name "*.log" -o -name "*.err" -type f -mtime +3 -exec rm {} +
+
+ 
